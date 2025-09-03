@@ -7,7 +7,7 @@ const loanController = require("../Controller/loanApplicationController");
 router.post("/", loanController.createLoanApplication);
 
 // Admin
-router.get("/", loanController.getAllLoanApplications);
+router.get("/", loanController.getLoanApplications);
 router.get("/:id", loanController.getLoanApplicationById);
 router.put("/:id/status", loanController.updateLoanStatus);
 router.delete("/:id", loanController.deleteLoanApplication);

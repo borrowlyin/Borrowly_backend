@@ -27,14 +27,12 @@ const Admin = sequelize.define("Admin", {
     type: DataTypes.STRING(50),
     defaultValue: "admin",
   },
-
-  // 🔑 OTP-related fields
   reset_otp: {
-    type: DataTypes.STRING(6),   // 6-digit OTP
+    type: DataTypes.STRING(6),   
     allowNull: true,
   },
   reset_otp_expires: {
-    type: DataTypes.DATE,        // expiry time
+    type: DataTypes.DATE,       
     allowNull: true,
   },
   is_otp_verified: {
@@ -52,7 +50,7 @@ const Admin = sequelize.define("Admin", {
   },
 }, {
   tableName: "admins",
-  timestamps: false, // we already handle created_at / updated_at manually
+  timestamps: false,
 });
 
 module.exports = Admin;

@@ -20,6 +20,8 @@ app.use("/api/contact-us", require('./Routers/contactUs'));
 app.use("/api/newsletter", require('./Routers/newsletter'));
 app.use("/api/admin", require('./Routers/adminRoutes'));
 
+app.use("/api/dashboard", require('./Routers/dashboardRoutes'));
+
 sequelize.authenticate()
   .then(() => console.log("✅ Database connected"))
   .catch((err) => console.error("❌ Database error:", err));

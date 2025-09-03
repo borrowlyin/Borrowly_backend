@@ -1,5 +1,6 @@
 // controllers/loanApplicationController.js
 const LoanApplication = require("../Model/LoanApplication");
+const { Op } = require("sequelize");
 
 exports.createLoanApplication = async (req, res) => {
   try {
@@ -18,10 +19,43 @@ exports.createLoanApplication = async (req, res) => {
 };
 
 // Get all loan applications
-exports.getAllLoanApplications = async (req, res) => {
+
+exports.getLoanApplications = async (req, res) => {
   try {
-    const apps = await LoanApplication.findAll();
-    res.json(apps);
+    const { page = 1, limit = 10, search = "", status, loanType } = req.query;
+
+    const offset = (page - 1) * limit;
+    const where = {};
+
+    if (status && status !== "all") {
+      where.status = status;
+    }
+
+    if (loanType && loanType !== "all") {
+      where.loan_type = loanType;
+    }
+
+    if (search) {
+      where[Op.or] = [
+        { full_name: { [Op.iLike]: `%${search}%` } },
+        { email_address: { [Op.iLike]: `%${search}%` } },
+        { contact_number: { [Op.iLike]: `%${search}%` } },
+      ];
+    }
+
+    const { rows, count } = await LoanApplication.findAndCountAll({
+      where,
+      offset: parseInt(offset),
+      limit: parseInt(limit),
+      order: [["created_at", "DESC"]],
+    });
+
+    res.json({
+      data: rows,
+      total: count,
+      page: parseInt(page),
+      limit: parseInt(limit),
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch loan applications" });
