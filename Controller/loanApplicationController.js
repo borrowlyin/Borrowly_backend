@@ -1,7 +1,6 @@
 // controllers/loanApplicationController.js
 const LoanApplication = require("../Model/LoanApplication");
 
-// Create a new loan application (user form)
 exports.createLoanApplication = async (req, res) => {
   try {
     const { full_name, email_address, contact_number, loan_type } = req.body;
